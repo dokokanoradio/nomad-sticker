@@ -1,11 +1,155 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Button from "../components/Button.astro";
+import Select from "../components/Select.astro";
+import ResultText from "../components/ResultText.astro";
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
+import { STICKERS } from "../lib/constants";
 ---
 
 <Layout>
-	<Welcome />
+  <div class="justify-center mx-auto">
+    <h1 class="text-center text-3xl">
+      ノマドステッカー
+      <br />
+      ばくりっこ！
+    </h1>
+    <h2 class="text-center text-xl p-4">1.ステッカーの個数を入力してね！</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {STICKERS.map((label) => (
+        <Select label={label} />
+      ))}
+    </div>
+    <div class="p-2 text-center">
+      <Button btn_type="btn-active btn-accent" id="reset" text="リセット" />
+    </div>
+
+    <h2 class="text-center text-xl p-4">
+      2.交換希望の文章をXにポストしよう！
+      <br />
+      (タグは自動で付きます)
+    </h2>
+    <div>
+      <ResultText id="resultarea" />
+      <div class="text-center p-3">
+        <span class="p-2">
+          <a class="btn btn-disabled" id="tweetlink">
+            Xにポストする！
+          </a>
+        </span>
+      </div>
+    </div>
+
+    <Footer />
+  </div>
 </Layout>
+
+<script>
+  import { STICKERS, TYPES_OF_STICKERS } from "../lib/constants";
+
+  // ステッカーのデータ型
+  type StickerDataType = {
+    label: string; // ラベル
+    num: number; // 枚数
+  };
+
+  // 画面更新関数
+  const updateScreen = (): void => {
+    const selects = document.querySelectorAll<HTMLSelectElement>(".select");
+    const resultArea = document.getElementById("resultarea");
+    const tweetLink = document.getElementById("tweetlink");
+
+    // パラメータチェック(ポカヨケ)
+    if (selects.length != TYPES_OF_STICKERS) return; // 要素数チェック
+    if (!(resultArea instanceof HTMLTextAreaElement)) return; //TextArea要素であるべき
+    if (!(tweetLink instanceof HTMLAnchorElement)) return; //a要素であるべき
+
+    // コンポーネントからステッカーの枚数だけ取り出す
+    const numArray: ReadonlyArray<number> = [...selects].map((s) => {
+      const sVal: number = Number(s.value); // 文字列=>number変換
+      return Number.isSafeInteger(sVal) ? sVal : 0; // ポカヨケ(NumberがNaNを返した場合対策)
+    });
+
+    // ステッカーデータの配列生成
+    const stickerDataArray: ReadonlyArray<Readonly<StickerDataType>> =
+      numArray.map((s, i) => ({ label: STICKERS[i], num: s }));
+
+    // ステッカー枚数のmin/max
+    const minNum = numArray.reduce((a, b) => Math.min(a, b));
+    const maxNum = numArray.reduce((a, b) => Math.max(a, b));
+    const nth = minNum + 1; // N周目
+
+    if (minNum != maxNum) {
+      // 枚数が異なる
+      const isWantArray: ReadonlyArray<Readonly<StickerDataType>> =
+        stickerDataArray.filter((v) => v.num < nth); // 枚数 < nthのカードを探している
+      const isRemArray: ReadonlyArray<Readonly<StickerDataType>> =
+        stickerDataArray.filter((v) => v.num > nth); // 枚数 > nthなら交換可能
+
+      // 求の文字列
+      const WantStr =
+        isWantArray.length > 0
+          ? isWantArray.map((v) => v.label).join("、") + "\n"
+          : "なし\n";
+
+      // 譲の文字列
+      const RemStr =
+        isRemArray.length > 0
+          ? isRemArray.map((v) => `${v.label}×${v.num - nth}`).join("、") + "\n"
+          : "なし\n";
+
+      // 出力するテキスト
+      const outText =
+        "ノマドステッカー交換希望！\n" +
+        "【求】\n" +
+        WantStr +
+        "【譲】\n" +
+        RemStr;
+
+      // テキストエリア更新
+      resultArea.value = outText;
+
+      // tweetLink更新
+      const encodedText = encodeURIComponent(resultArea.value); // URIエンコードする
+      const targetURI = `https://twitter.com/intent/tweet?text=${encodedText}&hashtags=ラジオノマド`;
+      tweetLink.classList.add("btn-info");
+      tweetLink.classList.remove("btn-disabled");
+      tweetLink.setAttribute("href", targetURI);
+    } else {
+      // 全部同じ枚数の場合
+
+      // 出力するテキスト
+      const outText: string =
+        maxNum > 0
+          ? `ノマドステッカーコンプリート(${nth - 1}週目)達成🎉\n`
+          : ""; // 初期状態ではXにポスト出来ないようにする
+
+      // テキストエリア更新
+      resultArea.value = outText;
+
+      // tweetLink更新
+      tweetLink.classList.add("btn-disabled");
+      tweetLink.classList.remove("btn-info");
+      tweetLink.removeAttribute("href"); // href削除してジャンプできないようにする
+    }
+  };
+
+  // select要素変更時に対するイベントリスナー(画面更新)追加
+  document
+    .querySelectorAll<HTMLSelectElement>(".select")
+    .forEach((elem) => elem.addEventListener("change", updateScreen));
+
+  // リセットボタンのイベントリスナー
+  document.getElementById("reset")?.addEventListener("click", () => {
+    // テキストエリアのindexを0に設定
+    document
+      .querySelectorAll<HTMLSelectElement>(".select")
+      .forEach((elem) => (elem.selectedIndex = 0));
+
+    // 画面更新を実行
+    updateScreen();
+  });
+
+  // 表示開始時に画面更新を実行
+  updateScreen();
+</script>

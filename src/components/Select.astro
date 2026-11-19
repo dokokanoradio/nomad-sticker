@@ -1,0 +1,34 @@
+---
+// props
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+
+// コンフィグパラメーター(最小・最大値)
+const min: number = 0; // 最小値
+const max: number = 9; // 最大値
+
+
+//コンフィグパラメーターのアサート
+if (min > max) {
+  throw new Error(`[ConfigError]min > maxになっています。min=${min} max=${max}`);
+}
+// 自動設定のコンフィグパラメーター定義
+const numOptions: number = (max - min) + 1; // オプションの個数
+---
+<div class="card bg-base-100 w-auto shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title">{label}</h2>
+    <p>枚数を入力</p>
+    <div class="card-actions justify-end">
+      <select class="select w-full">
+        {
+          [...Array(numOptions)].map((_, i) => (
+            <option value={min + i}>{min + i}</option>
+          ))
+        }
+      </select>
+    </div>
+  </div>
+</div>
