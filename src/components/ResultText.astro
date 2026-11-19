@@ -1,0 +1,14 @@
+---
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+---
+
+<textarea
+  class="textarea textarea-primary w-full"
+  id={id}
+  rows="5"
+  placeholder="個数を入力すると更新され、ポストできます。アプリ連携は使用していません。(ログイン済みならOK)"
+  readonly
+></textarea>
