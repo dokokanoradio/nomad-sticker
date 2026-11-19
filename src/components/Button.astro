@@ -1,0 +1,12 @@
+---
+// props
+interface Props {
+  id: string;
+  btn_type?: string;
+  text: string;
+  //label: string;
+}
+const { id, btn_type = "", text } = Astro.props;
+
+---
+<button class=`btn ${btn_type}` id={id}>{text}</button>

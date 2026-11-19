@@ -1,23 +1,45 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import "../assets/app.css";
+---
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta property="og:url" content="https://nomad-sticker.pages.dev" />
+    <meta property="og:site_name" content="ノマドステッカーばくりっこ！" />
+    <meta property="og:title" content="ノマドステッカーばくりっこ！" />
+    <meta
+      property="og:description"
+      content="ノマドステッカーのばくりっこ用の文章をつくるよ！"
+    />
+    <meta property="og:locale" content="ja" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ノマドステッカーばくりっこ！" />
+    <meta
+      name="twitter:description"
+      content="ノマドステッカーのばくりっこ用の文章をつくるよ！"
+    />
+    <meta
+      name="twitter:image"
+      content="https://nomad-sticker.pages.dev/bakurikko_card.png"
+    />
+    <meta
+      property="og:image"
+      content="https://nomad-sticker.pages.dev/bakurikko_card.png"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>ノマドステッカーばくりっこ！</title>
+  </head>
+  <body class="bg-green-50 bg-[url('/bakurikko.jpg')] bg-repeat">
+    <div class="px-[5%] py-3">
+      <slot />
+    </div>
+  </body>
+</html>
