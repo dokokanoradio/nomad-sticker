@@ -3,15 +3,30 @@
 ## これはなに？
 ノマドステッカーをばくりっこするための文章を作るWebアプリだよ！
 Xに簡単にポスト出来るよ！
+スマホのホーム画面にインストールできるよ！
+※個人作の非公式ツールです。
+
+ここからアクセスできるよ！
+https://nomad-sticker.pages.dev
+
+## コンセプト
+ノマドっぽさを意識しました。
+* 古き良きWebサイトっぽさ
+  * シンプルな画面デザイン(レトロっぽい楽しさ)
+* 新しさ
+  * Astro等の現代のWeb技術による構成
+    * キレイさ、速さなど。
+* 楽しさ・便利さ
+  * PWA対応(スマホのホーム画面にインストールできる)
+  * Xのアプリ連携不要(Webインテント)
 
 ## 細かい技術的な話
-* Astro製
-* CSSはdaisyUI(Tailwind CSS)
+* Astro製(HTML / TypeScript)
+  * 古典的なDOM操作
+* CSSはdaisyUI(+Tailwind CSS)
+* PWA対応はnode用ライブラリで実現
+  * astro-webmanifest
+  * astrojs-service-worker
 
 ## 更新履歴
-* Ver.1.0.0(2026/11/20)
-  * 初回リリース
-    * 枚数を入力して文章を生成する機能
-    * Xにポストする機能
-    * PWAによるアプリ化
-    * Twitter Card / OGP設定
+https://github.com/dokokanoradio/nomad-sticker/releases 参照。
