@@ -7,7 +7,7 @@ on:
         required: true
         type: string
 jobs:
-  npm_update:
+  check-branch:
     runs-on: ubuntu-latest
     timeout-minutes: 3
 

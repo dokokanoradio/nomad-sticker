@@ -11,7 +11,7 @@ on:
 
 jobs:
   check-branch:
-    uses: $/.github/workflows/onwc_check-source.yml
+    uses: $/.github/workflows/onwc_check-branch.yml
     with:
       source-branch: main
 
