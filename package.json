@@ -17,7 +17,7 @@
     "astro": "^7.4.12",
     "astro-webmanifest": "^1.0.0",
     "astrojs-service-worker": "^2.0.3",
-    "daisyui": "^5.8.1",
+    "daisyui": "^5.8.2",
     "tailwindcss": "^4.3.5",
     "typescript": "^6.0.3"
   }
