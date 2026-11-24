@@ -1,0 +1,51 @@
+name: productionリポジトリへのプルリク時チェック
+
+on:
+  pull_request:
+    branches:
+      - production #productionへのコミット時に発動
+    types:
+      - opened #PRオープン時に発動
+      - synchronize #PR内で追加コミット時に発動
+      - reopened #PR再オープン時に発動
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: マージ元ブランチの確認
+        uses: $/.github/workflows/onwc_check-source.yml
+        with:
+          source-branch: staging
+
+  node-version:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: node-version比較の実行
+        uses: $/.github/workflows/onwc_node-version.yml
+        
+  npm-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: npm updateの実行
+        uses: $/.github/workflows/onwc_npm-update.yml
+
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: astroのチェック処理の実行
+        uses: $/.github/workflows/onwc_astro-check.yml
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: astroのビルド処理の実行
+        uses: $/.github/workflows/onwc_build.yml
