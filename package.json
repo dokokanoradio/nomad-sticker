@@ -19,6 +19,6 @@
     "astrojs-service-worker": "^2.0.3",
     "daisyui": "^5.8.2",
     "tailwindcss": "^4.3.5",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.3"
   }
 }
