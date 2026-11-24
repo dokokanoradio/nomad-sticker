@@ -21,4 +21,5 @@ jobs:
         run: node --version > .mise-node-version   
 
       - name: diff確認
-        run: diff .node-version .mise-node-version   
+        run: diff .node-version .mise-node-version
+        

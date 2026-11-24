@@ -15,4 +15,4 @@ jobs:
       - name: マージ元ブランチのチェック
         if: github.head_ref != inputs.source-branch
         run: exit 1
-
+        
