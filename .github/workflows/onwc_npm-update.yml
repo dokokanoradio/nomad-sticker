@@ -14,8 +14,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: miseによる依存パッケージインストール
+      - name: miseによるツールインストール
         uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
+
+      - name: nodeの依存パッケージインストール
+        run: npm ci
 
       - name: npmの依存ライブラリ更新
         run: npm update
