@@ -1,0 +1,18 @@
+name: プルリク時のマージ元ブランチチェック
+
+on:
+  workflow_call:
+    inputs:
+      source-branch:
+        required: true
+        type: string
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: マージ元ブランチのチェック
+        if: github.head_ref != inputs.source-branch
+        run: exit 1
+        

@@ -1,0 +1,29 @@
+name: stagingリポジトリへのプルリク時チェック
+
+on:
+  pull_request:
+    branches:
+      - staging #stagingへのコミット時に発動
+    types:
+      - opened #PRオープン時に発動
+      - synchronize #PR内で追加コミット時に発動
+      - reopened #PR再オープン時に発動
+
+jobs:
+  check-branch:
+    uses: $/.github/workflows/onwc_check-branch.yml
+    with:
+      source-branch: main
+
+  node-version:
+    uses: $/.github/workflows/onwc_node-version.yml
+
+  npm-update:
+    uses: $/.github/workflows/onwc_npm-update.yml
+
+  check:
+    uses: $/.github/workflows/onwc_astro-check.yml
+
+  build:
+    uses: $/.github/workflows/onwc_build.yml
+    

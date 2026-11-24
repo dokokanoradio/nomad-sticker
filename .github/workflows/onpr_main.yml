@@ -1,0 +1,21 @@
+name: mainリポジトリへのプルリク時チェック
+
+on:
+  pull_request:
+    branches:
+      - main #mainへのコミット時に発動
+    types:
+      - opened #PRオープン時に発動
+      - synchronize #PR内で追加コミット時に発動
+      - reopened #PR再オープン時に発動
+
+jobs:
+  npm-update:
+    uses: $/.github/workflows/onwc_npm-update.yml
+
+  check:
+    uses: $/.github/workflows/onwc_astro-check.yml
+
+  build:
+    uses: $/.github/workflows/onwc_build.yml
+    
