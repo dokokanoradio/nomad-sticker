@@ -1,4 +1,5 @@
 import pkg from "../../package.json"; // package.json
+import { z } from "zod" // zod
 
 // 公開型定義
 // ステッカー配列(対象の数も決まる:8種類)
@@ -14,3 +15,8 @@ export const STICKERS = ["◖", "ラ", "ジ", "オ", "ノ", "マ", "ド", "🪟"
 
 // ステッカーの種類
 export const TYPES_OF_STICKERS = STICKERS.length;
+
+// ステッカーの最高枚数(1-99枚、デフォルト9枚)
+// ※最低枚数は0枚で固定
+const stickerScheme = z.number().int().positive().lte(99).default(9); // スキーマ
+export const MAX_NUM_STICKER = stickerScheme.parse(9); // パースしてから代入

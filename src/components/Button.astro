@@ -1,12 +1,13 @@
 ---
 // props
 interface Props {
-  id: string;
-  btn_type?: string;
-  text: string;
-  //label: string;
+  id: string; // ID
+  btn_type?: string; // ボタンに追加するクラス
+  text: string; // ボタンのテキスト
 }
 const { id, btn_type = "", text } = Astro.props;
-
 ---
-<button class=`btn ${btn_type}` id={id}>{text}</button>
+
+<button class=`btn ${btn_type}` id={id}>
+  {text}
+</button>

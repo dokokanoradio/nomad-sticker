@@ -1,5 +1,5 @@
 ---
-import { APP_VERSION } from "../lib/constants";
+import { APP_VERSION } from "../lib/constants"; // バージョン情報
 ---
 
 <footer class="footer footer-horizontal footer-center text-base-content rounded p-10">
@@ -9,12 +9,15 @@ import { APP_VERSION } from "../lib/constants";
     </p>
     <p>
       ソースコード・詳細等：
-      <a href="https://github.com/dokokanoradio/nomad-sticker">
+      <a class="link" href="https://github.com/dokokanoradio/nomad-sticker">
         https://github.com/dokokanoradio/nomad-sticker
       </a>
     </p>
     <p>
-      (Ver.{APP_VERSION})© 2026 <a href="https://x.com/dokokanoradio">どこか</a>
+      (Ver.{APP_VERSION})© 2026{" "}
+      <a class="link" href="https://x.com/dokokanoradio">
+        どこか
+      </a>
     </p>
   </aside>
 </footer>
