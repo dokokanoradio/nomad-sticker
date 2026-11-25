@@ -1,14 +1,17 @@
 ---
+// props
 interface Props {
-  id: string;
+  id: string; // ID
+  rows?: number; // 行数(デフォルト5)
+  placeholder?: string; // プレースホルダー(空の時に表示する:デフォルト空文字)
 }
-const { id } = Astro.props;
+const { id, rows = 5, placeholder = "" } = Astro.props;
 ---
 
 <textarea
   class="textarea textarea-primary w-full"
   id={id}
-  rows="5"
-  placeholder="枚数を入力すると更新され、ポストできます。アプリ連携は使用していません。(ログイン済みならOK)"
+  rows={rows}
+  placeholder={placeholder}
   readonly
 ></textarea>
