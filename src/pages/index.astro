@@ -42,6 +42,13 @@ const PLACE_HOLDER =
           </a>
         </span>
       </div>
+      <div class="p-2 text-center">
+        <Button
+          btn_type="btn-active btn-disabled"
+          id="copy"
+          text="テキストをコピー"
+        />
+      </div>
     </div>
 
     <Footer />
@@ -62,11 +69,13 @@ const PLACE_HOLDER =
     const selects = document.querySelectorAll<HTMLSelectElement>(".select");
     const resultArea = document.getElementById("resultarea");
     const tweetLink = document.getElementById("tweetlink");
+    const copyButton = document.getElementById("copy");
 
     // パラメータチェック(ポカヨケ)
     if (selects.length != TYPES_OF_STICKERS) return; // 要素数チェック
     if (!(resultArea instanceof HTMLTextAreaElement)) return; //TextArea要素であるべき
     if (!(tweetLink instanceof HTMLAnchorElement)) return; //a要素であるべき
+    if (!(copyButton instanceof HTMLButtonElement)) return; // ボタン要素であるべき
 
     // コンポーネントからステッカーの枚数だけ取り出す
     const numArray: ReadonlyArray<number> = [...selects].map((s) => {
@@ -120,6 +129,10 @@ const PLACE_HOLDER =
       tweetLink.classList.add("btn-info");
       tweetLink.classList.remove("btn-disabled");
       tweetLink.setAttribute("href", targetURI);
+
+      // コピーボタン更新
+      copyButton.classList.add("btn-success");
+      copyButton.classList.remove("btn-disabled");
     } else {
       // 全部同じ枚数の場合
       if (maxNum > 0) {
@@ -137,6 +150,10 @@ const PLACE_HOLDER =
         tweetLink.classList.add("btn-info");
         tweetLink.classList.remove("btn-disabled");
         tweetLink.setAttribute("href", targetURI);
+
+        // コピーボタン更新
+        copyButton.classList.add("btn-success");
+        copyButton.classList.remove("btn-disabled");
       } else {
         // 全部0の時
         // 初期状態ではXにポスト出来ないようにするため空文字
@@ -149,6 +166,10 @@ const PLACE_HOLDER =
         tweetLink.classList.add("btn-disabled");
         tweetLink.classList.remove("btn-info");
         tweetLink.removeAttribute("href"); // href削除してジャンプできないようにする
+
+        // コピーボタン更新
+        copyButton.classList.add("btn-disabled");
+        copyButton.classList.remove("btn-success");
       }
     }
   };
@@ -167,6 +188,16 @@ const PLACE_HOLDER =
 
     // 画面更新を実行
     updateScreen();
+  });
+
+  document.getElementById("copy")?.addEventListener("click", async () => {
+    // テキストエリア取得とポカヨケ
+    const resultArea = document.getElementById("resultarea");
+    if (!(resultArea instanceof HTMLTextAreaElement)) return; //TextArea要素であるべき
+
+    try {
+      await navigator.clipboard.writeText(resultArea.value);
+    } catch (error) {}
   });
 
   // 表示開始時に画面更新を実行
