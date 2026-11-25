@@ -93,20 +93,20 @@ const PLACE_HOLDER =
       // 求の文字列
       const WantStr =
         isWantArray.length > 0
-          ? isWantArray.map((v) => v.label).join("、") + "\n"
-          : "なし\n";
+          ? isWantArray.map((v) => v.label).join("、")
+          : "なし";
 
       // 譲の文字列
       const RemStr =
         isRemArray.length > 0
-          ? isRemArray.map((v) => `${v.label}×${v.num - nth}`).join("、") + "\n"
-          : "なし\n";
+          ? isRemArray.map((v) => `${v.label}×${v.num - nth}`).join("、")
+          : "なし";
 
       // 出力するテキスト
       const outText =
         "ノマドステッカー交換希望！\n" +
         "【求】\n" +
-        WantStr +
+        `${WantStr}\n` +
         "【譲】\n" +
         RemStr;
 
@@ -114,7 +114,8 @@ const PLACE_HOLDER =
       resultArea.value = outText;
 
       // tweetLink更新
-      const encodedText = encodeURIComponent(resultArea.value); // URIエンコードする
+      // タグを付ける関係で文章の末尾に改行を付ける
+      const encodedText = encodeURIComponent(outText + "\n"); // URIエンコードする
       const targetURI = `https://twitter.com/intent/tweet?text=${encodedText}&hashtags=ラジオノマド`;
       tweetLink.classList.add("btn-info");
       tweetLink.classList.remove("btn-disabled");
@@ -124,9 +125,7 @@ const PLACE_HOLDER =
 
       // 出力するテキスト
       const outText: string =
-        maxNum > 0
-          ? `ノマドステッカーコンプリート(${nth - 1}週目)達成🎉\n`
-          : ""; // 初期状態ではXにポスト出来ないようにする
+        maxNum > 0 ? `ノマドステッカーコンプリート(${nth - 1}週目)達成🎉` : ""; // 初期状態ではXにポスト出来ないようにする
 
       // テキストエリア更新
       resultArea.value = outText;
