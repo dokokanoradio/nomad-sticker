@@ -5,6 +5,10 @@ import ResultText from "../components/ResultText.astro";
 import Layout from "../layouts/Layout.astro";
 import Footer from "../components/Footer.astro";
 import { STICKERS } from "../lib/constants";
+
+// プレースホルダー定義
+const PLACE_HOLDER =
+  "枚数を入力すると更新され、ポストできます。アプリ連携は使用していません。(ログイン済みならOK)";
 ---
 
 <Layout>
@@ -30,7 +34,7 @@ import { STICKERS } from "../lib/constants";
       (タグは自動で付きます)
     </h2>
     <div>
-      <ResultText id="resultarea" />
+      <ResultText id="resultarea" placeholder={PLACE_HOLDER} />
       <div class="text-center p-3">
         <span class="p-2">
           <a class="btn btn-disabled" id="tweetlink">
