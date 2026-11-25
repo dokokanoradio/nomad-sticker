@@ -122,18 +122,34 @@ const PLACE_HOLDER =
       tweetLink.setAttribute("href", targetURI);
     } else {
       // 全部同じ枚数の場合
+      if (maxNum > 0) {
+        // 出力するテキスト
+        const nthCompleteText: string = maxNum >= 2 ? `【${maxNum}周目】` : "";
+        const outText = `ノマドステッカーコンプリート${nthCompleteText}達成🎉`;
 
-      // 出力するテキスト
-      const outText: string =
-        maxNum > 0 ? `ノマドステッカーコンプリート(${nth - 1}週目)達成🎉` : ""; // 初期状態ではXにポスト出来ないようにする
+        // テキストエリア更新
+        resultArea.value = outText;
 
-      // テキストエリア更新
-      resultArea.value = outText;
+        // tweetLink更新
+        // タグを付ける関係で文章の末尾に改行を付ける
+        const encodedText = encodeURIComponent(outText + "\n"); // URIエンコードする
+        const targetURI = `https://twitter.com/intent/tweet?text=${encodedText}&hashtags=ラジオノマド`;
+        tweetLink.classList.add("btn-info");
+        tweetLink.classList.remove("btn-disabled");
+        tweetLink.setAttribute("href", targetURI);
+      } else {
+        // 全部0の時
+        // 初期状態ではXにポスト出来ないようにするため空文字
+        const outText = "";
 
-      // tweetLink更新
-      tweetLink.classList.add("btn-disabled");
-      tweetLink.classList.remove("btn-info");
-      tweetLink.removeAttribute("href"); // href削除してジャンプできないようにする
+        // テキストエリア更新
+        resultArea.value = outText;
+
+        // tweetLink更新
+        tweetLink.classList.add("btn-disabled");
+        tweetLink.classList.remove("btn-info");
+        tweetLink.removeAttribute("href"); // href削除してジャンプできないようにする
+      }
     }
   };
 
